@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBA Matemáticas - Musar Homeschool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1><i class="fas fa-graduation-cap"></i> DBA Matemáticas</h1>
+                <p class="subtitle">Derechos Básicos de Aprendizaje - Musar Homeschool</p>
+            </div>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Buscar estándares o actividades...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </div>
+    </header>
+
+    <nav class="filters">
+        <div class="container">
+            <div class="filter-group">
+                <label for="gradeFilter">Grado:</label>
+                <select id="gradeFilter">
+                    <option value="">Todos los grados</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="viewMode">Vista:</label>
+                <select id="viewMode">
+                    <option value="cards">Tarjetas</option>
+                    <option value="list">Lista</option>
+                </select>
+            </div>
+            <button id="showActivitiesOnly" class="toggle-btn">
+                <i class="fas fa-home"></i> Solo Actividades
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div id="loadingSpinner" class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Cargando contenido...</p>
+            </div>
+            
+            <div id="contentContainer" class="content-container" style="display: none;">
+                <div class="stats-bar">
+                    <span id="totalItems">0 estándares encontrados</span>
+                    <span id="filteredItems"></span>
+                </div>
+                
+                <div id="standardsContainer" class="standards-container">
+                    <!-- Content will be dynamically generated here -->
+                </div>
+            </div>
+
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No se encontraron resultados</h3>
+                <p>Intenta con otros términos de búsqueda o filtros diferentes.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Standard Detail Modal -->
+    <div id="standardModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="close-btn" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Detail Modal -->
+    <div id="activityModal" class="modal">
+        <div class="modal-content activity-modal">
+            <div class="modal-header">
+                <h2 id="activityModalTitle"></h2>
+                <button class="close-btn" id="closeActivityModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="activityModalBody">
+                <!-- Activity content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Musar Homeschool - Sistema de Gestión DBA Matemáticas</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
