@@ -37,4 +37,7 @@ class Persona {
     set edad(valor) {
         this._edad = valor;
     }
+
 }
+
+export default Persona;
