@@ -64,6 +64,12 @@ function setupEventListeners() {
     viewModeSelect.addEventListener('change', changeViewMode);
     showActivitiesBtn.addEventListener('click', toggleActivitiesOnly);
     
+    // Back to Skills Tree button
+    const backToSkillsTreeBtn = document.getElementById('backToSkillsTree');
+    if (backToSkillsTreeBtn) {
+        backToSkillsTreeBtn.addEventListener('click', backToSkillsTree);
+    }
+    
     // Modal functionality
     closeModalBtn.addEventListener('click', closeModal);
     closeActivityModalBtn.addEventListener('click', closeActivityModal);
@@ -434,6 +440,34 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
+}
+
+// Function to go back to Skills Tree (Canvas)
+function backToSkillsTree() {
+    console.log('Returning to Skills Tree (Canvas)...');
+    
+    // Call the global function defined in index.js to show canvas
+    if (typeof window.showCanvas === 'function') {
+        window.showCanvas();
+        console.log('Canvas shown successfully using showCanvas() function');
+    } else {
+        // Fallback if showCanvas is not available
+        console.error('showCanvas function not found. Using manual fallback...');
+        
+        // Manual fallback
+        const animationContainer = document.getElementById('animation_container');
+        const dbaContent = document.querySelector('.dba-content');
+        
+        if (animationContainer) {
+            animationContainer.style.display = 'block';
+            console.log('Animation container shown');
+        }
+        
+        if (dbaContent) {
+            dbaContent.classList.remove('show');
+            console.log('DBA content hidden');
+        }
+    }
 }
 
 // Add some helpful console logs for debugging

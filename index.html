@@ -1,110 +1,194 @@
 <!DOCTYPE html>
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+-->
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Skill Matemáticas - Musar Homeschool</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Skill Matemáticas - Musar Homeschool</title>
+<!-- write your code here -->
+<style>
+  #animation_container {
+	position:absolute;
+	margin:auto;
+	left:0;right:0;
+	top:0;bottom:0;
+  }
+  /* Estilo para ocultar contenido inicialmente */
+  .dba-content {
+    display: none;
+  }
+  /* Asegurar que el contenido DBA tenga el estilo correcto cuando se muestra */
+  .dba-content.show {
+    display: block !important;
+  }
+</style>
+<!-- DBA Matemáticas styles -->
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+<script src="index.js?1755267506664"></script>
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("915B52158C924FFE9BD873D7A0BC5F3F");
+	var lib=comp.getLibrary();
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+}
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();	
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }	
+}
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.index();
+	stage = new lib.Stage(canvas);
+	stage.enableMouseOver();	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(true,'both',true,1,[canvas,anim_container,dom_overlay_container]);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+</script>
+<!-- write your code here -->
 </head>
-<body>
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <h1><img src="logo.png" alt="Meta Skill Matemáticas" width="150px" height="90px"> Meta Skill Matemáticas</h1>
-                <p class="subtitle">Niveles Meta Skill - Musar Homeschool</p>
-            </div>
-            <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Buscar estándares o actividades...">
-                <i class="fas fa-search search-icon"></i>
-            </div>
-        </div>
-    </header>
+<body onload="init();" style="margin:0px;">
+	<div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:1920px; height:1080px">
+		<canvas id="canvas" width="1920" height="1080" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1920px; height:1080px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
 
-    <nav class="filters">
-        <div class="container">
-            <div class="filter-group">
-                <label for="gradeFilter">Grado:</label>
-                <select id="gradeFilter">
-                    <option value="">Todos los grados</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="viewMode">Vista:</label>
-                <select id="viewMode">
-                    <option value="cards">Tarjetas</option>
-                    <option value="list">Lista</option>
-                </select>
-            </div>
-            <button id="showActivitiesOnly" class="toggle-btn">
-                <i class="fas fa-home"></i> Solo Actividades
-            </button>
-        </div>
-    </nav>
+	<!-- Contenido DBA Matemáticas (inicialmente oculto) -->
+	<div class="dba-content">
+		<header class="header">
+			<div class="container">
+				<div class="header-content">
+					<h1><img src="logo.png" alt="Meta Skill Matemáticas" width="150px" height="90px"> Meta Skill Matemáticas</h1>
+					<p class="subtitle">Niveles Meta Skill - Musar Homeschool</p>
+				</div>
+				<div class="search-container">
+					<input type="text" id="searchInput" placeholder="Buscar estándares o actividades...">
+					<i class="fas fa-search search-icon"></i>
+				</div>
+			</div>
+		</header>
 
-    <main class="main-content">
-        <div class="container">
-            <div id="loadingSpinner" class="loading">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Cargando contenido...</p>
-            </div>
-            
-            <div id="contentContainer" class="content-container" style="display: none;">
-                <div class="stats-bar">
-                    <span id="totalItems">0 estándares encontrados</span>
-                    <span id="filteredItems"></span>
-                </div>
-                
-                <div id="standardsContainer" class="standards-container">
-                    <!-- Content will be dynamically generated here -->
-                </div>
-            </div>
+		<nav class="filters">
+			<div class="container">
+				<div class="filter-group">
+					<label for="gradeFilter">Grado:</label>
+					<select id="gradeFilter">
+						<option value="">Todos los grados</option>
+					</select>
+				</div>
+				<div class="filter-group">
+					<label for="viewMode">Vista:</label>
+					<select id="viewMode">
+						<option value="cards">Tarjetas</option>
+						<option value="list">Lista</option>
+					</select>
+				</div>
+				<button id="showActivitiesOnly" class="toggle-btn">
+					<i class="fas fa-home"></i> Solo Actividades
+				</button>
+				<button id="backToSkillsTree" class="toggle-btn">
+					<i class="fas fa-arrow-left"></i> Volver al árbol de habilidades
+				</button>
+			</div>
+		</nav>
 
-            <div id="noResults" class="no-results" style="display: none;">
-                <i class="fas fa-search"></i>
-                <h3>No se encontraron resultados</h3>
-                <p>Intenta con otros términos de búsqueda o filtros diferentes.</p>
-            </div>
-        </div>
-    </main>
+		<main class="main-content">
+			<div class="container">
+				<div id="loadingSpinner" class="loading">
+					<i class="fas fa-spinner fa-spin"></i>
+					<p>Cargando contenido...</p>
+				</div>
+				
+				<div id="contentContainer" class="content-container" style="display: none;">
+					<div class="stats-bar">
+						<span id="totalItems">0 estándares encontrados</span>
+						<span id="filteredItems"></span>
+					</div>
+					
+					<div id="standardsContainer" class="standards-container">
+						<!-- Content will be dynamically generated here -->
+					</div>
+				</div>
 
-    <!-- Standard Detail Modal -->
-    <div id="standardModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle"></h2>
-                <button class="close-btn" id="closeModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Modal content will be inserted here -->
-            </div>
-        </div>
-    </div>
+				<div id="noResults" class="no-results" style="display: none;">
+					<i class="fas fa-search"></i>
+					<h3>No se encontraron resultados</h3>
+					<p>Intenta con otros términos de búsqueda o filtros diferentes.</p>
+				</div>
+			</div>
+		</main>
 
-    <!-- Activity Detail Modal -->
-    <div id="activityModal" class="modal">
-        <div class="modal-content activity-modal">
-            <div class="modal-header">
-                <h2 id="activityModalTitle"></h2>
-                <button class="close-btn" id="closeActivityModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body" id="activityModalBody">
-                <!-- Activity content will be inserted here -->
-            </div>
-        </div>
-    </div>
+		<!-- Standard Detail Modal -->
+		<div id="standardModal" class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 id="modalTitle"></h2>
+					<button class="close-btn" id="closeModal">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body" id="modalBody">
+					<!-- Modal content will be inserted here -->
+				</div>
+			</div>
+		</div>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Musar Homeschool - Sistema de Gestión DBA Matemáticas</p>
-        </div>
-    </footer>
+		<!-- Activity Detail Modal -->
+		<div id="activityModal" class="modal">
+			<div class="modal-content activity-modal">
+				<div class="modal-header">
+					<h2 id="activityModalTitle"></h2>
+					<button class="close-btn" id="closeActivityModal">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body" id="activityModalBody">
+					<!-- Activity content will be inserted here -->
+				</div>
+			</div>
+		</div>
 
-    <script src="script.js"></script>
+		<footer class="footer">
+			<div class="container">
+				<p>&copy; 2024 Musar Homeschool - Sistema de Gestión DBA Matemáticas</p>
+			</div>
+		</footer>
+
+		<script src="script.js"></script>
+	</div>
 </body>
 </html>
